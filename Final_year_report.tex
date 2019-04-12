@@ -1,0 +1,361 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{amsthm,amsmath,latexsym,amssymb,amsmath}
+\usepackage{mathrsfs,graphicx,xargs,etoolbox}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage{bookmark}
+
+\setlength{\textwidth}{19cm}
+\hoffset=-3.3cm
+
+\setlength{\textheight}{24cm}
+\voffset=-2.5cm
+
+\title{\bf{Project Report}}
+\author{\textsc{Arka Ghosh}}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{example}[definition]{Example}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{Rule}[definition]{Rule}
+
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+
+%symbols
+\newcommand{\U}{\mathscr{U}}
+\newcommand{\Po}{\mathscr{P}}
+
+\begin{document}
+\begin{titlepage}
+
+\maketitle
+
+\tableofcontents
+\end{titlepage}
+
+\section{Introduction}\label{Intro}
+\textbf{\textit{have to write abstract}}\\
+Type theory is an alternate to Zermelo-Fraenkel set theory, as a foundational system for mathematics. Homotopy type theory is the type theory where the (propositional) equality is modelled after homotopy. The goal of this project is to understand two fundamental notions of homotopy type theory namely, universes and univalence. In classical mathematics, there are two most used notions of universes:
+
+\begin{enumerate}
+
+\item[1] Zero-level universes in set theory, i.e collection of all sets.
+
+\item[2] Classifying objects in category theory or fibre bundle theory, where objects are 
+         classified by maps into to classifying object.  
+
+\end{enumerate}
+
+\noindent Classical paradoxes like the ones due to Russell and Burali-Forti arises if one 
+considers the first one(i.e the collection of all sets) as a set. Whereas, classifying objects 
+do exist in category theory and for fibre bundles. In type theory, one wants to incorporate 
+both these ideas. 
+
+\section{Burali-Forti Paradox}\label{S:BFP}
+
+Now we will see an informal description of the Burali-Forti paradox, which demonstrates a
+contradiction arising from the existence of a single universe containing `everything'.\smallskip
+
+Let $Ord$ be the set of all ordered pairs of the form $(A, <_A)$, where $A$ is a set and
+and $<_A$ is an irreflexive, well ordering on $A$. Also $(A, <_A)$ and $(B, <_B)$ are 
+considered equal/isomorphic (written as $(A,<_A) \cong (B,<_B)$ if there is an order 
+preserving bijection between them. I.e. $Ord$ is the universe of all ordinals equal upto 
+order preserving bijections \textbf{\textit{give examples}}.\smallskip
+
+Given $a\in A$, let $A_a = \{b \in A,\ b <_A a \}$. $A_a$ inherits an order (say $<_a$)
+from $(A, <_A)$. We call $(A_a, <_a)$ be the initial segment of $a$ in $(A, <_A)$. Let
+$I_A = \{(A_a, <_a),\ a\in A\}$ be the set of initial segments. Then 
+$(I_A,<_I) \cong (A, <_A)$, where $((B,<_B) <_I (C,<_C))$ if there is an order preserving 
+strict inclusion (i.e not surjective) from $(B,<_B)$ into $(C,<_C)$. Clearly 
+$(A_a,<_a) <_I (A_b,<_b)$ iff $a <_A b$.\smallskip
+
+Now define an order $<$ on $Ord$ as ; $(B,<_B) < (A, <_A)$ if $(B, <_B) \cong (A_a, <_a)$ 
+for some $a \in A$ (equivalently if there is an order preserving strict inclusion 
+from $(B,<_B)$ into $(A,<_A)$). Then $(Ord, <)$ becomes a well-ordered set 
+\textbf{(((a proof .....)))}. So $(Ord, <) \in Ord$. Also notice that as this order is defined 
+on the equivalence classes on well-ordered sets upto order preserving bijection, it is 
+irreflexive.\smallskip
+
+Now take any $(A, <_A)\in Ord$. Notice that $(I_A, <_I)$ is inherited from ${(Ord, <)}$. So
+$(A, <_A) < (Ord, <)$, as $(A,<_A) \cong (I_A, <_I)$.\smallskip
+
+Let $(\mathcal{O}, <')$ be the ordinal where, $\mathcal{O} = Ord\sqcup \{\star\}$, for 
+$a,b\in Ord$ $a<'b$ if $a<b$, and $a<\star$ for all $a\in Ord$. Then 
+$(Ord,<)< (\mathcal{O},<')$. But $(\mathcal{O},<')<(Ord,<)$ as proved in the last paragraph.
+So this gives a contradiction as $<$ is transitive but irreflexive. 
+
+\section{Formulating the Paradox in Type Theory}\label{S:Form in TT}
+
+Now we will try to formulate the paradox in homotopy type theory. More specifically, 
+we will arrive at a contradiction assuming the existence of a single universe $\U$, and
+assuming univalence axiom. Our description will be informal, because there are a good number 
+of resources available for a formal proof, although not many of them explain the idea 
+\textbf{((((need a better sentence and to say that the proof is taken from
+the HOTT book))))}.\smallskip
+
+\subsection{Notion of Sets and (Mere) Propositions}
+One of the main difficulties in formulating the paradox in type theory is that, unlike sets
+types have a higher categorical/ homotopical structure arising from the propsitional 
+equality. Same problem arises from the propositions as types interpretation. So sets and 
+propositions (more specifically, the property of being a set or a proposition) are defined as
+\[ isSet(A) :\equiv \prod_{x,y:A} \prod_{p,q : x = y} (p=q)\] and,
+\[ isProp(A) :\equiv \prod_{x,y:A} (x = y).\]
+
+I.e. $A$ is a set when any two proofs of equality is equal to each other. Topologically this 
+is equivalent to saying that $A$ has discreet topology. $A$ is a proposition when any two 
+elements of $A$ are equal. Toplogically this is equivalent to saying that $A$ is either empty
+or homotopy equivalent to a point. Logically this means proof of the proposition is unique. 
+During the course of the prooof we will see why these definitions help us. We will use the name 
+\textbf{\textit{mere proposition}} to distinguish between the types $A$ for which we have
+$isProp(A)$, and types representing propositions in general. \smallskip
+
+From now on we will work with only with the types which are either a set or a mere 
+proposition. Although sometimes we will have to prove that a newly defined type is indeed 
+so, as it is not automatic. We will use $Set_{\U}$ and $Prop_{\U}$ to denote the type
+whose elements are the types $A : \U$ for which we have $isSet(A)$ and $isProp(A)$ 
+respectively. We will omit the subscript $\U$ when it will be clear from the context. 
+
+\begin{definition}\label{D:Power set}
+Given a set $A$, the power set of $A$(written as $\Po (A)$ is defined as:
+\[ \Po (A) :\equiv A \to Prop.\]
+Using univalence it can be proved that it is a set.
+\end{definition}
+
+\begin{definition}\label{D:Subset}
+Given $P : A \to Prop$, we call the type $\sum_{a : A}  P(a)$ a \textbf{\textit{subtype}}
+of $A$. Because $P(a)$ is a mere proposition for $a : A$, equality for a subtype is generated by 
+the equality between the first co-ordinates. Hence, if $A$ is a set and then any subtype of $A$ 
+is also a set. In that case we denote it as ${\{ a : A\ |\ P(a) \}}$, and call it to be a 
+\textbf{\textit{subset}} of $A$.
+\end{definition}
+
+Given two sets $A$ and $B$ the type $A \to B$ is also becomes a set using univalence. Given
+$f : A \to B$ it would be nice if we can define the image of $f$ as a subset of $B$. But
+given $b : B$ the type $\sum_{a : A} f(a) = b$ is not a mere proposition. So the 
+straighforward way of defining the image as $\sum_{b : B} (\sum_{a : A} f(a) = b)$ does not
+work. So we will need an additional concept called propositional resizing.
+
+\begin{definition}\label{D:Prop resize}
+Given a type $A$ the \textbf{\textit{propositional resizing}} of $A$, denoted as $|| A ||$, is
+a type generated by two constructors:
+\begin{enumerate}
+\item For $a : A$, we have $|a| : A$,
+\item For $x,y : A$, we have $x = y$.
+\end{enumerate}
+The first constructors says that if $A$ is inhabited then $|| A ||$ is inhabited. The second
+one ensures that $|| A ||$ is a mere proposition. The recursion principle of $|| A ||$ is:
+If $B$ is a mere proposition and we have $f : A \to B$, then there is an induced 
+$g : || A || \to B$ such that $g(|a|) \equiv f(a)$ for all $a : A$. 
+\end{definition}
+ 
+Equipped with this concept now we will define the image of a function as a subset of the 
+codomain. 
+
+\begin{definition}
+Given two sets $A$ and $B$, and $f : A \to B$, the image of $f$ is defined as:
+\[ im(f) :\equiv \{ b : B \text{ s.t. } || \Sigma_{a : A} f(a) = b|| .\}\]
+\end{definition}
+
+
+\begin{definition}
+Given a set $A$, and a binary relation $(-<-) : A \to A \to Prop$. Now define being 
+accesible by $<$ (i.e $Acc_{<} : A \to \U$) as : If $b$ is accesible for every $b<a$ 
+then $a$ is accesible. I.e, it has one constructor 
+\[ acc_< : \prod_{a : A} \left( \prod_{b : A} (b<a) \to Acc(b) \right) \to Acc(a). \]
+\end{definition}
+
+The induction principle for $Acc$ is somewhat complicated. But it is proved in \cite{Hott} 
+that accesibility is a mere proposition. So given $P : A \to \U$, to prove 
+$\prod_{a : A} Acc(a) \to P(a)$ (i.e. give an inhabitant) , it is enough to define :
+\[ f : \prod_{a : A} \left( \prod_{b : A} (b<a) \to Acc(b) \times P(b) \right) \to P(a) .\]
+
+\begin{definition}\label{D:WF}
+We will say a binary relation $<$ on $A$ is \textbf{\textit{well-founded}} if every element
+is accessible (i.e we have $f : \prod_{a : A} \to Acc(a)$. Well-foundedness is a mere 
+proposition as $Acc$ is so. Notice that if $<$ on $A$ is well-founded then for some 
+$P : A \to \U$ proving $\prod_{a:A} acc(a) \to P(a)$ is enough to prove $\prod_{a : A} P(a)$.
+\end{definition}
+
+The following lemma will be useful later:
+\begin{lemma}\label{L:Wf implies irr}
+Any well-founded relation is irreflexive.
+\end{lemma}
+
+\begin{proof}
+We will use induction on $acc_<$. Take $a : A$. Assume $\neg(b < b)$ for all $b<a$ 
+(induction hypothesis). Then if $a < a$ we have $\neg(a < a)$ using induction hypothesis,
+resulting in a contradiction.
+\end{proof}
+
+\begin{definition}\label{D:Ext}
+We will call $<$ \textbf{\textit{extensional}}, if it is well-founded and we have,
+\[ \left( \prod_{c : A}  (c<a) \iff (c<b) \right) \to (a = b),\]
+where for two mere propositions $A$, $B$ $A\iff B$ simply means there are $f : A \to B$ and 
+$g : B \to A$ (using the definition of $isProp$ it can be proven that $f$ is an equivalence).
+Notice that extensionality is same as saying that elements with equal initial segments
+are equal.
+\end{definition} 
+
+\begin{definition}
+An \textbf{\textit{ordinal}} is a set $A$ with a relation $<$ which is well-founded, 
+extensional and transitive.
+\end{definition}
+
+Notice that the definition of ordinals here is slightly different than the set theory. This
+is necessary because we do not assume excluded middle (whose general version is 
+inconsistent with univalence. Check corollary 3.2.7 of \cite{Hott} for a proof). Although
+the version of LEM for mere propositions:
+\[ \text{LEM} :\equiv \prod_{A : \U} \left((isProp(A) \to (A + (\neg A))\right) \]  
+is consistent with univalence. And assuming LEM, $<$ is well-founded if and only if every
+non-empty subset $B:\Po (A)$ merely has a minimal element (Lemma 10.3.8 of \cite{Hott}).
+
+\begin{definition}\label{D:sim}
+If $(A,<)$ and $(B,<)$ are extensional and well-founded, a \textbf{\textit{simulation}} is
+a function $f : A \to B$ is such that:
+\begin{enumerate}
+\item if $a < a'$, then $f(a) < f(a')$, and
+\item for all $a : A$ and $b : B$, if $b < f(a)$, then there merely exists an $a' < a$ with
+      $f(a') = b$
+\end{enumerate}
+\end{definition} 
+
+A subset $C : \Po (A)$ is called an initial segment of $A$ if $c \in C$ and $a < c$ implies
+$a \in C$. Using a double well-founded induction it can be proven that every simulation is
+injective (Lemma 10.3.12 of \cite{Hott}). So $\sum_{a : A} (f(a) = b)$ is a mere proposition.
+Hence the image of a simulation $f : (A,<) \to (B,<)$ is an initial segment of $A$. Clearly
+the other direction is also true. Hence, by univalence every simulation $A \to B$ is equal
+to the inclusion of some initial segment of $B$.
+
+\textbf{\textit{May be we should ask the reader to read the category theory part, or just say 
+in the beginning which chapters/ section of Hott are needed.}}\smallskip
+
+\textbf{\textit ((  assuing theorem 10.3.14 and corollary 10.3.15 we proceed ))}\smallskip
+
+The following lemma which can be proved using induction on $<$ says that the category is a 
+poset.
+
+\begin{lemma}\label{L:Sim is uniq}
+For extensional well-founded $(A,<)$ and $(B,<)$, there is at most one simulation $f : A \to B$.
+\end{lemma}
+
+So, given extensional well-founded relations $(A, <_A)$ and $(B, <_B)$ we can write $A \leq B$ 
+to denote that there is a simulation from $A$ to $B$ respecting the relations. Using univalence,
+and the fact that $\leq$ is reflexive and transitive we can prove that it is also 
+antisymmetric.
+
+\begin{definition}\label{D:Ordinal}
+An \textbf{\textit{ordinal}} is a set $A$ with an extensional well-founded relation $<$, which
+is also transitive.
+\end{definition}
+
+For example, the usual order on $\mathbb{N}$ makes it an ordinal. Let $Ord$ denote the type of
+ordinals. We already know that it is a set by previous results. Now we will show that it admits
+a well-founded relation.\smallskip
+
+Given an ordinal $A$ and $a : A$ let $A_a :\equiv \{ b : A\ |\ b < a\}$ denote the 
+\textbf{\textit{initial segment}} of $a$ in $A$. Clearly $A_a$ is also an ordinal. If 
+$A_a = A_b$ as ordinals, then the isomorphism should respect the order in $A$. Hence by 
+extensionality $a = b$. Hence the function $a \to A_a$ is an injection
+\textbf{\textit{((((define it))))}} $A \to Ord$. 
+
+\begin{definition}\label{D:Bdd sim}
+Given two ordinals $A$ and $B$, a simulation $f : A \to B$ is said to be 
+\textbf{\textit{bounded}} if there exists $b : B$ such that $A = B_b$. Note that from the
+discussion above boundedness is a mere proposition. We will write $A < B$ to denote that 
+there exists a bounded simulation from $A$ to $B$. Because being a simulation is a 
+mere property, so is $<$.
+\end{definition}
+
+Now we will prove that $(Ord_{\U_i},<)$ is an ordinal in $\U_{i+1}$, i.e. 
+$(Ord_{\U_i},<) : Ord_{\U_{i+1}}$. It is in a higher universe as we need to go up at least 
+one step to define $<$ on $Ord_{\U_i}$.
+
+\begin{theorem}\label{T:Ord is ord}
+$(Ord,<)$ is an ordinal.
+\end{theorem}
+
+\begin{proof}
+Let $A,B$ and $C$ be ordinals such that $A<B$ and $B<C$. Let $f : A \to B_b$ and $g : B\to C_c$
+are simulations. Then $g \circ f : A \to C_{g(b)}$ is a simulation. So $A < C$. Hence 
+$<$ is transitive. \smallskip
+
+Let $A$ be an ordinal, and $a : A$. We will use induction of $acc_<$ along with 
+well-foundedness to prove that $A_a$ is accessible. Let $A_b$ be accessible for all $b < a$
+(induction hypothesis). Using the definition of accessibility it is enough to prove that 
+$B$ is accessible for all $B < A_a$. But $B < A_a$ means $B = (A_a)_b = A_b$, for some 
+$b < a$. Hence $B$ is accesible using induction hypothesis. So $A_a$ is accessible for
+all $a : A$.\smallskip
+
+Now take any $B < A$. Then $B = A_a$ for some $a : A$ and hence is accessible. Hence $A$ is
+accessible. Hence $(Ord,<)$ is well-founded.\smallskip
+
+Now say for some $A,B : Ord)$ we have $\prod_{C : Ord} (C < A) \iff (C < B)$. Then for all
+$a : A$ we have $A_a < B$, and hence and unique $b : B$ such that $A_a = B_b$. Define 
+$f : A \to B$  using this correspondence. Similarly we can defined $g : B \to A$ and prove
+that $f$ and $g$ are inverses of each other. Clearly $f$ and $g$ respect the orders on
+$A$ and $B$. So $A \cong B$. Using univalence $A = B$. So $(Ord, <)$ is extensional.
+\end{proof}
+
+\begin{lemma}
+$<$ on $Ord$ is irreflexive.
+\end{lemma}
+
+\begin{proof}
+Say $A < A$. Then there is a simulation $f : A \to A_a$ for some $a : A$. But then composing
+with the inclusion $A_a \hookrightarrow A$ we get a simulation $g : A \to A$ such that
+$g(a) \neq a$. Contradicting the uniqueness of simulations.
+\end{proof}
+
+The next lemma will give us the last missing ingredient to prove that the existence of a single
+universe is inconsistent.
+
+\begin{lemma}\label{L:succ of ord}
+If $A : Ord_{\U}$ then there is a $B : Ord_{\U}$ such that $A < B$. 
+\end{lemma}
+
+\begin{proof}
+Let $B :\equiv A + \mathbf{1}$. With $\star : \mathbf{1}$ greater than every $a : A$. Then
+$A : B_{\star}$ hence $B < A$.
+\end{proof}
+
+Now assume that there is a singl universe $\U$ containing everything. Then 
+$(Ord_{\U},<) : Ord_{\U}$. Now notice the following:
+
+\begin{lemma}\label{L:A<Ord}
+For any $(A, <) : Ord_{\U}$, $A = (Ord_{\U})_A$. I.e. any ordinal is isomorphic to the
+set contaning its initial segment equipped with the natural order.
+\end{lemma}
+
+\begin{proof}
+Define $f : A \to Ord_{\U}$ as $f(a) :\equiv A_a$. Clearly $f$ is a simulation. Define
+$g : (Ord_{\U})_A \to A$ as $g(C) = c$ where $c : A$ is such that $C = A_c$. Cleary $f$
+(restricted to $(Ord_{\U})_A$) and $g$ are inverses of each other, respecting the 
+corresponding orders. Hence using univalence $(A, <) : Ord_{\U}$, $A = (Ord_{\U})_A$.
+\end{proof}
+
+Using \ref{L:Wf implies irr}, $<$ is irreflexive. But Using the last lemma we have 
+$Ord_{\U} < Ord_{\U}$ contradicting the irreflexivity of $<$.
+
+\begin{thebibliography}{99}
+
+\bibitem{Hott}
+Homotopy Type Theory: Univalent Foundations of Mathematics
+
+\bibitem{Manin}
+A Course in Mathematical Logic for Mathematicians: Yu. I. Manin 
+
+\end{thebibliography}
+
+\end{document}
