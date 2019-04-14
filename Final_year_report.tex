@@ -163,13 +163,21 @@ $g : || A || \to B$ such that $g(|a|) \equiv f(a)$ for all $a : A$.
 Equipped with this concept now we will define the image of a function as a subset of the 
 codomain. 
 
-\begin{definition}
+\begin{definition}\label{D:Image}
 Given two sets $A$ and $B$, and $f : A \to B$, the image of $f$ is defined as:
 \[ im(f) :\equiv \{ b : B \text{ s.t. } || \Sigma_{a : A} f(a) = b|| .\}\]
 \end{definition}
 
+\subsection{The Category of Ordinals}\label{SS:Cat of ord}
 
-\begin{definition}
+Having defined sets inside type theory, now we want to define ordinals. Because we do not
+have excluded middle in type theory, our definition will be slightly different than the
+set theoritic one. Intuitively, ordinals will be defined as sets with an additional structure.
+We will also need a definition of functions betweeen ordinals respecting these structures. 
+To address these issues we will need the notions of `categories' and `structures' inside type 
+theory.
+
+\begin{definition}\label{D:Acc}
 Given a set $A$, and a binary relation $(-<-) : A \to A \to Prop$. Now define being 
 accesible by $<$ (i.e $Acc_{<} : A \to \U$) as : If $b$ is accesible for every $b<a$ 
 then $a$ is accesible. I.e, it has one constructor 
@@ -200,12 +208,12 @@ resulting in a contradiction.
 \end{proof}
 
 \begin{definition}\label{D:Ext}
-We will call $<$ \textbf{\textit{extensional}}, if it is well-founded and we have,
+We will call $<$ \textbf{\textit{extensional}}, if it is well-founded and we have:
 \[ \left( \prod_{c : A}  (c<a) \iff (c<b) \right) \to (a = b),\]
-where for two mere propositions $A$, $B$ $A\iff B$ simply means there are $f : A \to B$ and 
-$g : B \to A$ (using the definition of $isProp$ it can be proven that $f$ is an equivalence).
-Notice that extensionality is same as saying that elements with equal initial segments
-are equal.
+where for two mere propositions $A$ and $B$, we write $A\iff B$ to say that there are 
+$f : A \to B$ and $g : B \to A$ (using the definition of $isProp$ it can be proven that $f$ 
+is an equivalence). Notice that extensionality is same as saying that elements with equal 
+initial segments are equal.
 \end{definition} 
 
 \begin{definition}
@@ -238,10 +246,38 @@ Hence the image of a simulation $f : (A,<) \to (B,<)$ is an initial segment of $
 the other direction is also true. Hence, by univalence every simulation $A \to B$ is equal
 to the inclusion of some initial segment of $B$.
 
-\textbf{\textit{May be we should ask the reader to read the category theory part, or just say 
-in the beginning which chapters/ section of Hott are needed.}}\smallskip
+A simulation is basically a function from one ordinal to another resepecting the order. Now
+we will defined categories in type theory and prove that there is a category with ordinals
+as its objects and simulations as arrows.
 
-\textbf{\textit ((  assuing theorem 10.3.14 and corollary 10.3.15 we proceed ))}\smallskip
+\begin{definition}\label{D:PreCat}
+A \textbf{\textit{precategory}} $A$ has the following:
+
+\begin{enumerate}
+\item A type $A_0$, whose elements are are called \textbf{\textit{objects}}. We write $a : A$
+    for $a : A_0$ for simplicity.
+
+\item Given $a, b : A$, a set $hom_A(a,b)$, whose elements are called 
+    \textbf{\textit{arrows}} or \textbf{\textit{morphisms}}.
+
+\item For each $a : A$, a morphism $1_a : hom_A (a,a)$ , called the 
+    \textbf{\textit{identity morphism}}.
+    
+\item For each $a, b, c : A$, a function 
+    \[hom_A (b,c) \to hom_A (a,b) \to hom_A (a,c),\]
+    called \textbf{\textit{composition}}. It is denoted as $g \mapsto f \mapsto g \circ f$.
+
+\item For $a, b : A$ and $f : hom_A (a,b )$ , we have $f = 1_b \circ f$ and 
+    $f = f \circ 1_a$.
+    
+\item For $a, b, c, d : A$ and $f : hom A ( a, b )$ ,$g : hom A ( b, c )$ , 
+    $h : hom A ( c, d )$ , we have 
+    \[ h \circ (g \circ f) = (h \circ g) \circ f .\]
+    
+
+\end{enumerate}
+
+\end{definition} 
 
 The following lemma which can be proved using induction on $<$ says that the category is a 
 poset.
