@@ -63,6 +63,39 @@ considers the first one(i.e the collection of all sets) as a set. Whereas, class
 do exist in category theory and for fibre bundles. In type theory, one wants to incorporate 
 both these ideas. 
 
+\section{Informal Description of Type Theory}
+
+\subsection{Basic Notions}
+Type theory is a deductive system based on two kinds of judgements:
+
+\begin{enumerate}
+\item $a : A$, said as ``$a$ is an object of type $A$''.
+\item $a \equiv b : A$, said as ``$a$ and $b$ are definitionally equal objects of type $A$''. 
+\end{enumerate} 
+
+The idea definitional equality is close to $\alpha$ and $\beta$ reductions in logic. For 
+example, in case of natural numbers $1 + 0$ and $0 + 1$ are equal by definition of $+$. But
+the statement that for any $n$, $n + 0$ and $0 + n$ is a proposition which needs to be 
+proven.\smallskip
+
+The first-class objects in type theory are types. We have some predefined types such as:
+\begin{enumerate}
+\item The empty type $\mathbf{0}$.
+\item The unit type $\mathbf{1}$ with $\star : \mathbf{1}$.
+\item The boolean type $\mathbf{2}$ with $0_{\mathbf{2}}, 1_{\mathbf{2}} : \mathbf{2}$.  
+\end{enumerate}
+In addition to that we have type forming
+rules to define new types from old ones. For example given types $A$ and $B$ we can form: 
+the function type $A \to B$, the product type $A \times B$ etc. Unlike set theory functions
+and products are first-class objects in type theory. Although their introduction and 
+elimination rules agree with usual notions. 
+ 
+
+\subsection{Proposition as Types}
+
+\subsection{Universes and Univalnece}
+
+
 \section{Burali-Forti Paradox}\label{S:BFP}
 
 Now we will see an informal description of the Burali-Forti paradox, which demonstrates a
@@ -124,6 +157,9 @@ modern mathematics which uses set theory as a model. Because these are not first
 objects in type theory a lot of work in formulating the paradox will be proving that certain
 objects are sets or mere propositions.\smallskip
 
+Another source of difficulty is the absence of excluded middle in type theory. To bypass that
+we will need the following definition:
+
 \begin{definition}\label{D:Acc}
 Given a set $A$, and a binary relation $(-<-) : A \to A \to Prop$. Now define being 
 accesible by $<$ (i.e $\text{Acc}_{<} : A \to \U$) as : If $b$ is accesible for every $b<a$ 
@@ -134,8 +170,8 @@ then $a$ is accesible. I.e, it has one constructor
 \end{definition}
  
 This a form of transfinite induction in type theory which we use to prove that certain
-properties hold for an element in a type assuming they hold for elements less than it. It can
-be proven that accessibility is a mere proposition. 
+properties hold for an element in a type assuming they hold for elements less than it.
+It can be proven that accessibility is a mere proposition. 
 
 \begin{definition}\label{D:WF}
 We will say a binary relation $<$ on $A$ is \textbf{\textit{well-founded}} if every element
@@ -167,14 +203,14 @@ a function $f : A \to B$ is such that:
 \end{enumerate}
 \end{definition} 
 
-A simulation is essentially a function from one ordinal to another resepecting the order. 
-Using well-founded induction we can prove that each simulation is injective. Because 
-simulations are functions from one set to another and $a<b$ is a mere proposition, 
-injectivity implies that being a simulation is also mere proposition. Using induction on 
-$<$ we can prove that given for well-founded and extensional $(A,<)$ and $(B,<)$, there is
-at most one simulation $f:A \to B$. We write $A \leq B$ to mean there exists a simulation
-$A \to B$. Then $A \leq B$ is a mere proposition. Moreover it is a partial order, i.e 
-$A \leq B$ and $B \leq A$ implies $A = B$. 
+A simulation is essentially a function from one ordinal(defined next) to another, 
+resepecting the order. Using well-founded induction we can prove that each simulation is 
+injective. Because simulations are functions from one set to another and $a<b$ is a mere 
+proposition, injectivity implies that being a simulation is also mere proposition. Using 
+induction on $<$ we can prove that given for well-founded and extensional $(A,<)$ and $(B,<)$, 
+there is at most one simulation $f:A \to B$. If we write $A \leq B$ to mean there exists a 
+simulation $A \to B$, then $A \leq B$ is a mere proposition. Moreover it is a partial order, 
+i.e $A \leq B$ and $B \leq A$ implies $A = B$. 
 
 \begin{definition}\label{D:Ordinal}
 An \textbf{\textit{ordinal}} is a set $A$ with an extensional well-founded relation $<$, which
@@ -184,7 +220,6 @@ can be defined as an element in the next universe $\U_{i+1}$.
 
 Because $a < b$, well-foundedness and extensionality are mere propositions, so are
 transitivity and the property of being an ordinal.\smallskip
-
 
 Given an ordinal $A$ and $a : A$ let $A_a :\equiv \{ b : A\ |\ b < a\}$ denote the 
 \textbf{\textit{initial segment}} of $a$ in $A$. Clearly $A_a$ is also an ordinal. If 
@@ -206,13 +241,13 @@ the definition of a simulation. So we have the following theorem:
 $(\text{Ord}_{\U_i},<) : \U_{i+1}$ is an ordinal.
 \end{theorem}
 
-\subsection{The Final Piece}
 Given an ordinal $A$ the map $a \mapsto A_a$ is a simulation $A \to \text{Ord}$ as it is 
 injective and respects the orders. Using univalence we can prove that $A = \text{Ord}_A$. 
-If there is a universe $\U$ containing everything then 
+If there is a single universe $\U$ containing everything then 
 $(\text{Ord}_{\U},<) : \text{Ord}_{\U}$. So $A < \text{Ord}_{\U}$ for every ordinal 
 $A : \text{Ord}_{\U}$. But that contradicts irreflexivity of $<$.
 
+\section{Understanding Univalence}
 
 \begin{thebibliography}{99}
 
