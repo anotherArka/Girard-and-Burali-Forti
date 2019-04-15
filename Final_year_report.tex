@@ -73,10 +73,10 @@ Type theory is a deductive system based on two kinds of judgements:
 \item $a \equiv b : A$, said as ``$a$ and $b$ are definitionally equal objects of type $A$''. 
 \end{enumerate} 
 
-The idea definitional equality is close to $\alpha$ and $\beta$ reductions in logic. For 
-example, in case of natural numbers $1 + 0$ and $0 + 1$ are equal by definition of $+$. But
-the statement that for any $n$, $n + 0$ and $0 + n$ is a proposition which needs to be 
-proven.\smallskip
+The idea definitional equality is close to $\alpha$ and $\beta$ reductions in logic. We 
+do not distinguish between terms which are equal by definition. For example, in case of 
+natural numbers $1 + 0$ and $0 + 1$ are equal by definition of $+$. But the statement that 
+for any $n$, $n + 0$ and $0 + n$ is a proposition which needs to be proven. \smallskip
 
 The first-class objects in type theory are types. We have some predefined types such as:
 \begin{enumerate}
@@ -86,14 +86,36 @@ The first-class objects in type theory are types. We have some predefined types 
 \end{enumerate}
 In addition to that we have type forming
 rules to define new types from old ones. For example given types $A$ and $B$ we can form: 
-the function type $A \to B$, the product type $A \times B$ etc. Unlike set theory functions
-and products are first-class objects in type theory. Although their introduction and 
-elimination rules agree with usual notions. 
+the function type $A \to B$, the product type $A \times B$, the co-product type $A + B$ etc.
+Unlike set theory, these are first-class objects in type theory. Although their introduction
+and elimination rules agree with the usual notions.
+
+\subsection{Dependent Type Theory}
+Extra power is added to type theory by letting types depend on terms. For example we can 
+define the dependent function type $\prod_{a : A} P(a)$, and the dependent product type
+$\sum_{a : A} P(a)$, where $P$ is a function on $A$ s.t. $P(a)$ is a type for $a : A$. 
+$f : \prod_{a : A} P(a)$ maps $a : A$ to $f(a) : P(a)$. $(a,b) : \sum_{a : A} P(a)$ where
+$b : P(a)$. Notice that to define $P$ we need a type which contains types as their elements.
+These special types are called universes. We will discuss them shortly. 
  
-
 \subsection{Proposition as Types}
+One brilliance of type theory is that we can make judgements about type theory in type theory
+itself. So we do not need a meta theory. A proposition can be considered as a type $A$ with 
+the proofs as its elements. So proving a proposition boils down to showing that there is a
+term $a : A$. Logical statements like $A \implies B$, $A \wedge B$, $A \vee B$, 
+$\forall a. P(a)$, $\exists a. P(a)$ naturally corresponds to type theoritic operations 
+$A \to B$, $A \times B$, $A + B$, $\prod_{a : A} P(a)$, $\sum_{a : A} P(a)$, 
+respectively.\smallskip
 
-\subsection{Universes and Univalnece}
+One special kind proposition considered as a type is the equality. I.e. given $a,b : A$ we
+write $a =_A b$ to represent the type of witnesses that $a$ is equal to $b$. We say $a$ and
+$b$ are propositionally equal when $a =_A b$ is inhabited. As said earlier, given natural
+numbers $n$ and $m$, $n+m$ is equal to $m+n$ propositionally, but not definitionally. 
+
+\subsection{Universes and Univalence}
+
+As described 
+
 
 
 \section{Burali-Forti Paradox}\label{S:BFP}
