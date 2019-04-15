@@ -302,25 +302,38 @@ subbundle of $(G_k(\mathbb{R}^n) \times \mathbb{R}_n,p,G_k(\mathbb{R}^n))$ with 
 space consisting of pairs $(V,x)$ with $x\in V$. $\gamma^n_k$ can be naturally included 
 inside $\gamma^n_k$. In fact we can carry on this way to define $\gamma^{\infty}_k$. 
 
-\subsection{Intrepreting Universes as Universal Bundles}
+\subsection{Universes as Universal Bundles}
 
 Given a natural number $k$, the vector bundle $\gamma^{\infty }_n$ serves as a universal object/
 classifying space due to the following results ($F$ is either $\mathbb{R}$ or $\mathbb{C}$):
 
-\begin{theorem}
+\begin{theorem}\label{T:Ind}
 Every vector bundle $\mathscr{E}^k$ over a paracompact space $B$ is $B$-isomorphic
-to $f*(\gamma^{\infty}_k)$ for some $f : B \to G_k (F^{ \infty })$.
+to the induced bundle $f^*(\gamma^{\infty}_k)$ for some ${f : B \to G_k (F^{ \infty })}$.
 \end{theorem}
 
-\begin{theorem}
+\begin{theorem}\label{T:Hom to Eq}
 Let $f, g: B \to B'$ be two homotopic maps, where $B$ is a para-compact space, 
 and let $\mathscr{E}$ be a vector bundle over $B'$. Then $f^*(\mathscr{E})$ and 
 $g^*(\mathscr{E})$ are $B$-isomorphic.
 \end{theorem}
 
-\begin{theorem}
-
+\begin{theorem}\label{T:Eq to Hom}
+Let $f, g: B \to G_k(F^n)$ be s.t. $f^*(\gamma_k^n)$ and $g^*(\gamma_k^n)$
+are $B$-isomorphic and let ${ j: G_k(F^n) \to G_k(F^{2n}) }$ be the natural inclusion. Then the
+maps $jf$ and $jg$ are homotopic for $1 \leq n \leq \infty$. 
 \end{theorem}
+
+Theorem \ref{T:Ind} is counterpart of the fact that type families are fibrations. Theorem
+\ref{T:Hom to Eq} essentially says that homotopies induce equivalences. As in type theory
+this holds in general for vector bundles modulo some technicalaties. Theorem \ref{T:Eq to Hom}
+for the case $n = \infty$, proves that $\gamma^{\infty}_k$ is the classifying space in the 
+sense that homotopies between maps into the spaces are induced by bundle isomorphisms.
+So if we consider $A =_{\U} B$ as the type of homotopies and $A \simeq B$ as the type of
+equivalences/isomorphisms, universes can be interpreted as universal bundles where homotopies
+and isomorphism are in one-to-one correspondence with each other.
+ 
+
 
 \begin{thebibliography}{99}
 
