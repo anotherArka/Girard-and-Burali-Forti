@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[10pt]{article}
 
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
@@ -10,11 +10,11 @@
 \usepackage[bookmarks=true]{hyperref}
 \usepackage{bookmark}
 
-\setlength{\textwidth}{17cm}
-\hoffset=-2.3cm
+\setlength{\textwidth}{18cm}
+\hoffset=-2.8cm
 
-\setlength{\textheight}{22cm}
-\voffset=-1.5cm
+\setlength{\textheight}{23cm}
+\voffset=-2.0cm
 
 \title{\bf{Project Report}}
 \author{\textsc{Arka Ghosh}}
@@ -117,18 +117,110 @@ $m(x,m(y,z)) = m(m(x,y),z)$. Hence clearly proof of a proposition need not be un
 we will define the property of being a \textbf{\textit{mere proposition}} as:
 ${ \text{isProp}(A) :\equiv \prod_{x,y : A} (x = y) }$. This essentially captures the idea
 that proposition are either true(i.e. a proof exists, or the type is inhabited) or false(i.e
-the type is uninhabited). We define the property of being a set as: 
+the type is uninhabited). We define the property of being a \textbf{\textit{set}} as: 
 ${ \text{isSet} :\equiv \prod_{x,y:A} \text{isProp}(x=y)  }$. This captures the idea that sets
 have no higher structure, which is all we need to formulate the paradox and also most of
-modern mathematics which uses set theory as a model.   
+modern mathematics which uses set theory as a model. Because these are not first-class 
+objects in type theory a lot of work in formulating the paradox will be proving that certain
+objects are sets or mere propositions.\smallskip
+
+\begin{definition}\label{D:Acc}
+Given a set $A$, and a binary relation $(-<-) : A \to A \to Prop$. Now define being 
+accesible by $<$ (i.e $\text{Acc}_{<} : A \to \U$) as : If $b$ is accesible for every $b<a$ 
+then $a$ is accesible. I.e, it has one constructor 
+\[ \text{acc}_< : \prod_{a : A} \left( \prod_{b : A} (b<a) \to \text{Acc}(b) \right) 
+\to \text{Acc}(a). \]
+
+\end{definition}
+ 
+This a form of transfinite induction in type theory which we use to prove that certain
+properties hold for an element in a type assuming they hold for elements less than it. It can
+be proven that accessibility is a mere proposition. 
+
+\begin{definition}\label{D:WF}
+We will say a binary relation $<$ on $A$ is \textbf{\textit{well-founded}} if every element
+is accessible (i.e we have $f : \prod_{a : A} \to Acc(a)$. Well-foundedness is a mere 
+proposition as $Acc$ is so. Notice that if $<$ on $A$ is well-founded then for some 
+$P : A \to \U$ proving $\prod_{a:A} acc(a) \to P(a)$ is enough to prove $\prod_{a : A} P(a)$.
+\end{definition}
+
+\begin{definition}\label{D:Ext}
+We will call $<$ \textbf{\textit{extensional}}, if it is well-founded and we have:
+\[ \left( \prod_{c : A}  (c<a) \iff (c<b) \right) \to (a = b),\]
+where for two mere propositions $A$ and $B$, we write $A\iff B$ to say that there are 
+$f : A \to B$ and $g : B \to A$ (using the definition of $\text{isProp}$ it can be proven 
+that $f$ is an equivalence). Notice that extensionality is same as saying that elements 
+with equal initial segments are equal.
+\end{definition} 
+
+Extensionality is a mere proposition as given $a,b:A$, $a<b$ is a mere proposition, and so
+is well-foundedness. Using univalence we can prove that the type of extensional well-founded
+relations is a set.
+
+\begin{definition}\label{D:sim}
+If $(A,<)$ and $(B,<)$ are well-founded and extensional, a \textbf{\textit{simulation}} is
+a function $f : A \to B$ is such that:
+\begin{enumerate}
+\item if $a < a'$, then $f(a) < f(a')$, and
+\item for all $a : A$ and $b : B$, if $b < f(a)$, then there merely exists an $a' < a$ with
+      $f(a') = b$
+\end{enumerate}
+\end{definition} 
+
+A simulation is essentially a function from one ordinal to another resepecting the order. 
+Using well-founded induction we can prove that each simulation is injective. Because 
+simulations are functions from one set to another and $a<b$ is a mere proposition, 
+injectivity implies that being a simulation is also mere proposition. Using induction on 
+$<$ we can prove that given for well-founded and extensional $(A,<)$ and $(B,<)$, there is
+at most one simulation $f:A \to B$. We write $A \leq B$ to mean there exists a simulation
+$A \to B$. Then $A \leq B$ is a mere proposition. Moreover it is a partial order, i.e 
+$A \leq B$ and $B \leq A$ implies $A = B$. 
+
+\begin{definition}\label{D:Ordinal}
+An \textbf{\textit{ordinal}} is a set $A$ with an extensional well-founded relation $<$, which
+is also transitive. Given an universe $\U_i$ the type of ordinals in $\U$, $\text{Ord}_{\U}$
+can be defined as an element in the next universe $\U_{i+1}$.
+\end{definition}
+
+Because $a < b$, well-foundedness and extensionality are mere propositions, so are
+transitivity and the property of being an ordinal.\smallskip
+
+
+Given an ordinal $A$ and $a : A$ let $A_a :\equiv \{ b : A\ |\ b < a\}$ denote the 
+\textbf{\textit{initial segment}} of $a$ in $A$. Clearly $A_a$ is also an ordinal. If 
+$A_a = A_b$ as ordinals, then the isomorphism should respect the order in $A$. Hence by 
+extensionality $a = b$. Hence the function $a \to A_a$ is an injection.
+
+\begin{definition}\label{D:Bdd sim}
+Given two ordinals $A$ and $B$, a simulation $f : A \to B$ is said to be 
+\textbf{\textit{bounded}} if there exists $b : B$ such that $A = B_b$. 
+\end{definition}
+
+Note that from the discussion above boundedness is a mere proposition. We will write 
+$A < B$ to denote that there exists a bounded simulation from $A$ to $B$. Because being a 
+simulation is a mere property, so is $<$. Using accessibility we can prove that any 
+well-founded relation is irreflexive. Using well-founded induction we can prove that $<$
+is a well-founded extensional relation on $\text{Ord}_{\U}$. Transitivity follows from 
+the definition of a simulation. So we have the following theorem:
+\begin{theorem}
+$(\text{Ord}_{\U_i},<) : \U_{i+1}$ is an ordinal.
+\end{theorem}
+
+\subsection{The Final Piece}
+Given an ordinal $A$ the map $a \mapsto A_a$ is a simulation $A \to \text{Ord}$ as it is 
+injective and respects the orders. Using univalence we can prove that $A = \text{Ord}_A$. 
+If there is a universe $\U$ containing everything then 
+$(\text{Ord}_{\U},<) : \text{Ord}_{\U}$. So $A < \text{Ord}_{\U}$ for every ordinal 
+$A : \text{Ord}_{\U}$. But that contradicts irreflexivity of $<$.
+
 
 \begin{thebibliography}{99}
 
 \bibitem{Hott}
-Homotopy Type Theory: Univalent Foundations of Mathematics
+Homotopy Type Theory: Univalent Foundations of Mathematics.
 
 \bibitem{Manin}
-A Course in Mathematical Logic for Mathematicians: Yu. I. Manin 
+A Course in Mathematical Logic for Mathematicians: Yu. I. Manin. 
 
 \end{thebibliography}
 
