@@ -45,22 +45,21 @@
 \tableofcontents
 
 \begin{abstract}
-The aim of this project is to understand the concept of \emph{universes} in homotopy type 
-theory. It is divided into two parts. In the first part we describe a type-theoretic 
-analog of the Burali-Forti paradox arising from the assumption that a single universe contains 
-everything. In the second part we try to interpret universes along with the univalence axiom 
-as universal bundles.
+The aim of this project is to understand the concept of \emph{universes} 
+in homotopy type theory. It is divided into two parts. In the first part, we describe 
+a type-theoretic analogue of the Burali-Forti paradox arising from the assumption 
+that a single universe contains everything. In the second part, we try to interpret 
+universes along with the univalence axiom, as universal bundles. 
 \end{abstract}
 
 \end{titlepage}
 
-
 \section{Introduction}\label{Intro}
-Type theory is an alternate to first order logic with ZFC set theory as a model for a 
-foundation of mathamtics. It was first proposed by Bertrand Russell to avoid paradoxes in 
-set theory. After that it has been reformulated again and again by several math-
-ematicians. The one we are going to discuss here is closely related to Per Martin-L\"of 's \emph{intuitionistic type theory}, with an additional axiom called \emph{univalence} (due to
-Voevodsky).
+Type theory is an alternate to first-order logic with ZFC set theory as a model for a
+foundation of mathematics. It was first proposed by Bertrand Russell to avoid paradoxes in 
+set theory. After that, it has been reformulated again and again by several mathematicians. 
+The one we are going to discuss here is closely related to Per Martin-L\"of's intuitionistic 
+type theory, with an additional axiom called univalence (due to Voevodsky).
 
 
 \section{Informal Description of Type Theory}
@@ -68,8 +67,8 @@ Voevodsky).
 \subsection{Basic Notions}
 
 The basic notions in type theory are terms (objects, elements) and types.  We write 
-$a : A$ to mean $a$ is a term of type $A$. This is a form of judgement in type theory.
-There is another form of judgement in type theory called definitional equality. We write
+$a : A$ to mean $a$ is a term of type $A$. This is a form of judgment in type theory.
+There is another form of judgment in type theory called definitional equality. We write
 $a \equiv b : A$ to say that $a$ and $b$ are equal by definition in type $A$. We do not
 distinguish between terms which are definitionally equal. We have some predefined types such 
 as the \emph{empty type} $\mathbf{0}$, the \emph{unit type} $\mathbf{1}$, 
@@ -92,7 +91,7 @@ $P$ we need a type which contains types as their elements.
 These special types are called universes. We will discuss them shortly. 
  
 \subsection{Proposition as Types}
-One brilliance of type theory is that we can make judgements about type theory in type theory
+One brilliance of type theory is that we can make judgments about type theory in type theory
 itself. So we do not need a meta theory. A proposition can be considered as a type $A$ with 
 the witnesses/proofs as its elements. So to prove a proposition $A$ we need to show that 
 there is a term $a : A$. Logical statements like $A \implies B$, $A \wedge B$, $A \vee B$, 
@@ -116,16 +115,16 @@ to the subspace of constant loops.
 
 \subsection{Universes and Univalence}
 
-As described earlier, universes are types which has types as their elements. That is universes
+As described earlier, universes are types which has types as their elements. That is, universes
 are types of types. A function $f : A \to \U$, where $A$ is a type and $\U$ is an universe
 is called a type family. Notice that each universe should have another universe as its type.
 But the rule $\U : \U$ leads to paradoxes similar to set theory as we will see shortly. 
 So we have a hierarchy of universes $\U_1 : \U_2 : \U_3 \dots $.\smallskip.
 
 Given $A, B:\U$ we can define the type of equivalences $A\simeq B$ as functions
-with `inverses'. But we already have an equivalence $A = B$ by considering types as points
-in the universe. We can also have a map $(A = B) \to (A \cong B)$. The univalence axiom 
-due to Voedvosky says that this itself is an equivalence, i.e we have
+with \emph{inverses}. But we already have an equivalence $A = B$ by considering types as points
+in the universe. We can also have a map $(A = B) \to (A \simeq B)$. The univalence axiom 
+due to Voevodsky says that this itself is an equivalence, i.e we have
 \[ (A = B) \simeq (A \simeq B).\]
 We will try to have a better understanding of this axiom under the topological interpretation
 in section \ref{S:UU}.
@@ -138,31 +137,31 @@ contradiction arising from the existence of a single universe containing
 
 Let $Ord$ be the set of all ordered pairs of the form $(A, <_A)$, where $A$ is a set and
 and $<_A$ is an irreflexive, well ordering on $A$. Also $(A, <_A)$ and $(B, <_B)$ are 
-considered equal/isomorphic (written as $(A,<_A) \cong (B,<_B)$ if there is an order 
-preserving bijection between them. That is $Ord$ is the universe of all ordinals equal up to 
+considered equal/isomorphic (written as $(A,<_A) \cong (B,<_B)$) if there is an order 
+preserving bijection between them. That is, $Ord$ is the universe of all ordinals equal up to 
 order preserving bijections. Natural numbers $\mathbb{N}$ with the usual order is an ordinal.
 $\mathbb{N}\cup \{\infty \}$ is another example of an ordinal with $n < \infty$ for all
-$n : \mathbb{N}$.\smallskip
+$n \in \mathbb{N}$.\smallskip
 
 Given $a\in A$, let $A_a = \{b \in A,\ b <_A a \}$. $A_a$ inherits an order (say $<_a$)
-from $(A, <_A)$. We call $(A_a, <_a)$ be the initial segment of $a$ in $(A, <_A)$. Let
+from $(A, <_A)$. We call $(A_a, <_a)$ to be the initial segment of $a$ in $(A, <_A)$. Let
 $I_A = \{(A_a, <_a),\ a\in A\}$ be the set of initial segments. Then 
 $(I_A,<_I) \cong (A, <_A)$, where ${ (B,<_B) <_I (C,<_C) }$ if there is an order preserving 
-strict inclusion (i.e not surjective) from $(B,<_B)$ into $(C,<_C)$. Clearly 
+strict inclusion (i.e, not surjective) from $(B,<_B)$ into $(C,<_C)$. Clearly 
 $(A_a,<_a) <_I (A_b,<_b)$ iff $a <_A b$.\smallskip
 
 Now define an order $<$ on $Ord$ as, $(B,<_B) < (A, <_A)$ if $(B, <_B) \cong (A_a, <_a)$ 
 for some $a \in A$ (equivalently if there is an order preserving strict inclusion 
 from $(B,<_B)$ into $(A,<_A)$). Then $(Ord, <)$ becomes a well-ordered set. 
-So $(Ord, <) \in Ord$. Also notice that as this order is defined 
-on the equivalence classes on well-ordered sets upto order preserving bijection, it is 
-irreflexive.\smallskip
+So $(Ord, <) \in Ord$. Notice that this order is defined 
+on the equivalence classes on well-ordered sets upto order preserving bijection. Also it can
+be proven to be irreflexive.\smallskip
 
 Now take any $(A, <_A)\in Ord$. Notice that $(I_A, <_I)$ is inherited from ${(Ord, <)}$. So
 $(A, <_A) < (Ord, <)$, as $(A,<_A) \cong (I_A, <_I)$.\smallskip
 
 Let $(\mathcal{O}, <')$ be the ordinal where, $\mathcal{O} = Ord\sqcup \{\star\}$, for 
-$a,b\in Ord$ $a<'b$ if $a<b$, and $a<\star$ for all $a\in Ord$. Then 
+$a,b\in Ord$, $a<'b$ if $a<b$, and $a<'\star$ for all $a\in Ord$. Then 
 $(Ord,<)< (\mathcal{O},<')$. But $(\mathcal{O},<')<(Ord,<)$ as proved in the last paragraph.
 So this gives a contradiction as $<$ is transitive but irreflexive. 
 
@@ -175,32 +174,33 @@ Difficulties arise in formulating the paradox in type theory because:
 \item Under the proposition as types interpretation, proofs of a proposition are not unique.
 \end{enumerate}
 
-For example if we define the type of semigroups as:
+For example, if we define the type of semigroups as
 
 \[ {Semigroup}:\equiv 	\sum_{A : \U} \sum_{m : A \to A \to A} 
     \prod_{x,y,z:A} m(x,m(y,z)) = m(m(x,y),z) \]
     
-i.e a type $A$, along with a binary operation $m$, and a proof of associativity of $m$; then
+i.e., a type $A$, along with a binary operation $m$, and a proof of associativity of $m$; then
 by a semigroup (under the topological interpretation) we mean a space $A$ along with a
-continuous function $m : A\times A \to A$ and a continuous family of paths from 
-$m(x,m(y,z)) = m(m(x,y),z)$. Hence clearly proofs of a proposition need not be unique. So
-we will define the property of being a \textbf{\textit{mere proposition}} as:
+continuous function $m : A\times A \to A$, and a continuous family of paths from 
+$m(x,m(y,z)) = m(m(x,y),z)$. Hence clearly, proofs of a proposition need not be unique. So
+we will define the property of being a \textbf{\textit{mere proposition}} as,
 ${ {isProp}(A) :\equiv \prod_{x,y : A} (x = y) }$. This essentially captures the idea
-that proposition are either true (i.e., a proof exists, or the type is inhabited) or false(i.e.,
-the type is uninhabited). We define the property of being a \textbf{\textit{set}} as: 
+that proposition are either true (i.e., a proof exists, or the type is inhabited) or false 
+(i.e., the type is uninhabited). We define the property of being a \textbf{\textit{set}} as, 
 ${ {isSet} :\equiv \prod_{x,y:A} {isProp}(x=y)  }$. This captures the idea that sets
 have no higher structure, which is all we need to formulate the paradox and also most of
 modern mathematics which uses set theory as a model. Because these are not first-class 
 objects in type theory a lot of work in formulating the paradox will be proving that certain
-objects are sets or mere propositions.\smallskip
+objects are sets or mere propositions. We will use $Prop$ to denote the type of 
+mere propositions.\smallskip
 
 Another source of difficulty is the absence of excluded middle in type theory. To bypass that
-we will need the following definition:
+we will need the following definition. 
 
 \begin{definition}\label{D:Acc}
 Given a set $A$, and a binary relation $(-<-) : A \to A \to Prop$. Now define being 
-accessible by $<$ (i.e ${Acc}_{<} : A \to \U$) as : If $b$ is accesible for every $b<a$ 
-then $a$ is accessible. I.e, it has one constructor 
+accessible by $<$ (i.e., ${Acc}_{<} : A \to \U$) as: If $b$ is accessible for every $b<a$ 
+then $a$ is accessible. That is, it has one constructor 
 \[ {acc}_< : \prod_{a : A} \left( \prod_{b : A} (b<a) \to {Acc}(b) \right) 
 \to {Acc}(a). \]
 
@@ -210,13 +210,13 @@ mere proposition.
 
 \begin{definition}\label{D:WF}
 We will say a binary relation $<$ on $A$ is \textbf{\textit{well-founded}} if every element
-is accessible (i.e we have $f : \prod_{a : A} \to Acc(a)$. Well-foundedness is a mere 
+is accessible (i.e., we have $f : \prod_{a : A} \to Acc(a)$. Well-foundedness is a mere 
 proposition as ${Acc}$ is so. Notice that if $<$ on $A$ is well-founded then for some 
-$P : A \to \U$ proving $\prod_{a:A} acc(a) \to P(a)$ is enough to prove $\prod_{a : A} P(a)$.
+$P : A \to \U$ proving $\prod_{a:A} Acc(a) \to P(a)$ is enough to prove $\prod_{a : A} P(a)$.
 \end{definition}
 
 \begin{definition}\label{D:Ext}
-We will call $<$ \textbf{\textit{extensional}}, if it is well-founded and we have:
+We will call $<$ \textbf{\textit{extensional}}, if it is well-founded and we have,
 \[ \left( \prod_{c : A}  (c<a) \iff (c<b) \right) \to (a = b),\]
 where for two mere propositions $A$ and $B$, we write $A\iff B$ to say that there are 
 $f : A \to B$ and $g : B \to A$ (using the definition of ${isProp}$ it can be proven 
@@ -234,18 +234,18 @@ a function $f : A \to B$ is such that:
 \begin{enumerate}
 \item if $a < a'$, then $f(a) < f(a')$, and
 \item for all $a : A$ and $b : B$, if $b < f(a)$, then there merely exists an $a' < a$ with
-      $f(a') = b$
+      $f(a') = b$.
 \end{enumerate}
 \end{definition} 
 
-A simulation is essentially a function from one ordinal(defined next) to another, 
+A simulation is essentially a function from one ordinal (defined next) to another, 
 respecting the order. Using well-founded induction we can prove that each simulation is 
 injective. Because simulations are functions from one set to another and $a<b$ is a mere 
-proposition, injectivity implies that being a simulation is also mere proposition. Using 
-induction on $<$ we can prove that given for well-founded and extensional $(A,<)$ and $(B,<)$, 
+proposition, injectivity implies that being a simulation is also a mere proposition. Using 
+induction on $<$ we can prove, for well-founded and extensional $(A,<)$ and $(B,<)$
 there is at most one simulation $f:A \to B$. If we write $A \leq B$ to mean there exists a 
 simulation $A \to B$, then $A \leq B$ is a mere proposition. Moreover it is a partial order, 
-i.e $A \leq B$ and $B \leq A$ implies $A = B$. 
+i.e, $A \leq B$ and $B \leq A$ implies $A = B$. 
 
 \begin{definition}\label{D:Ordinal}
 An \textbf{\textit{ordinal}} is a set $A$ with an extensional well-founded relation $<$, which
@@ -253,7 +253,7 @@ is also transitive. Given an universe $\U_i$ the type of ordinals in $\U_{i}$, $
 can be defined as an element in the next universe $\U_{i+1}$.
 \end{definition}
 
-Because $a < b$, well-foundedness and extensionality are mere propositions, so are
+Because $a < b$, well-foundedness, and extensionality are mere propositions, so are
 transitivity and the property of being an ordinal.\smallskip
 
 Given an ordinal $A$ and $a : A$ let $A_a :\equiv \{ b : A\ |\ b < a\}$ denote the 
@@ -271,7 +271,7 @@ $A < B$ to denote that there exists a bounded simulation from $A$ to $B$. Becaus
 simulation is a mere property, so is $<$. Using accessibility we can prove that any 
 well-founded relation is irreflexive. Using well-founded induction we can prove that $<$
 is a well-founded extensional relation on ${Ord}_{\U}$. Transitivity follows from 
-the definition of a simulation. So we have the following theorem:
+the definition of a simulation. So we have the following theorem.
 \begin{theorem}
 $({Ord}_{\U_i},<) : \U_{i+1}$ is an ordinal.
 \end{theorem}
@@ -290,26 +290,28 @@ finite number of universes.
 \subsection{Type Families as Fibrations}
 Any type family $P : A \to \U$ can be considered as a fibration 
 ${ {pr}_1 : \sum_{a : A} P(a) }$, where ${pr}_1$ is projection onto the first
-co-ordinate. This fibration satisfies \emph{Homotopy lifting property} automatically. 
+co-ordinate. This fibration satisfies \emph{homotopy lifting property} automatically. 
 In this interpretation functions $f : \prod_{a : A} P(a)$ become sections. Also a path 
 $p : a =_A b$ induces a fibre transport $p_* : P(a) \to P(b)$. We can even prove that the 
 fibres are equivalent (with a proper notion of equivalence). So we automatically have 
 equivalences arising from equalities. Univalence essentially says that in case of universes
-equalities and equivalences are in one to one correspondence with each other in a `continuous'
-manner. Similar results are observed for vector bundles also.
+equalities and equivalences are in one to one correspondence with each other in a 
+\emph{continuous} manner. Similar results are observed for vector bundles also.
 
 \subsection{Vector Bundles}
 A vector bundle is a bundle $p : E \to B$ where inverse image of each element has a 
-vector space and the bundle is locally trivial. A non-trivial example of a vector bundle is 
-the canonical vector bundle $\gamma^n_k$ on the Grassmanian $G_k(\mathbb{R}^n)$. This is a 
+vector space structure and the bundle is locally trivial. A non-trivial example of a 
+vector bundle is the canonical vector bundle $\gamma^n_k$ on the Grassmanian 
+$G_k(\mathbb{R}^n)$. This is a 
 subbundle of $(G_k(\mathbb{R}^n) \times \mathbb{R}_n,p,G_k(\mathbb{R}^n))$ with the total
 space consisting of pairs $(V,x)$ with $x\in V$. $\gamma^n_k$ can be naturally included 
-inside $\gamma^n_k$. In fact we can carry on this way to define $\gamma^{\infty}_k$. 
+inside $\gamma^{n+1}_k$. In fact we can carry on this way to define $\gamma^{\infty}_k$. 
 
 \subsection{Universes as Universal Bundles}
 
-Given a natural number $k$, the vector bundle $\gamma^{\infty }_n$ serves as a universal object/
-classifying space due to the following results ($F$ is either $\mathbb{R}$ or $\mathbb{C}$):
+Given a natural number $k$, the vector bundle $\gamma^{\infty }_n$ serves as a 
+universal object/classifying space due to the following results 
+($F$ is either $\mathbb{R}$ or $\mathbb{C}$).
 
 \begin{theorem}\label{T:Ind}
 Every vector bundle $\mathscr{E}^k$ over a paracompact space $B$ is $B$-isomorphic
@@ -329,9 +331,9 @@ maps $jf$ and $jg$ are homotopic for $1 \leq n \leq \infty$.
 \end{theorem}
 
 Theorem \ref{T:Ind} is counterpart of the fact that type families are fibrations. Theorem
-\ref{T:Hom to Eq} essentially says that homotopies induce equivalences. As in type theory
+\ref{T:Hom to Eq} essentially says that homotopies induce equivalences. Similar to type theory
 this holds in general for vector bundles modulo some technicalities. Theorem \ref{T:Eq to Hom}
-for the case $n = \infty$, proves that $\gamma^{\infty}_k$ is the classifying space in the 
+for the case $n = \infty$ proves that $\gamma^{\infty}_k$ is the classifying space in the 
 sense that homotopies between maps into the spaces are induced by bundle isomorphisms.
 So if we consider $A =_{\U} B$ as the type of homotopies and $A \simeq B$ as the type of
 equivalences/isomorphisms, universes can be interpreted as universal bundles where homotopies
