@@ -28,3 +28,6 @@
 
 *.fdb_latexmk
 *.fls
+*.nav
+*.vrb
+*.snm
