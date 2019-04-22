@@ -1,0 +1,267 @@
+\documentclass[10pt]{beamer}
+\usetheme{Boadilla}
+
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{graphicx}
+\usepackage{array}
+%\usepackage{enumitem}
+\usepackage{amsthm,amsmath,latexsym,amssymb,amsmath}
+\usepackage{mathrsfs,graphicx,xargs,etoolbox}
+
+\title{Understanding Universes and Univalence}
+\author{Arka Ghosh}
+\institute{Guided by - Prof. }
+\date{}
+
+%commands
+\newcommand{\U}{\mathscr{U}}
+\newcommand{\R}{\mathbb{R}}
+
+\begin{document}
+
+\begin{frame}\label{titlepage}
+\titlepage
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}\label{type theory}
+
+\only<1>{
+\begin{block}{}
+Type theory is a \emph{language} with a \emph{deductive system}. That is, it has
+
+\begin{itemize}
+\item rules of forming valid expressions, and
+\item rules of deduction. 
+\end{itemize} 
+It gives an alternate to first-order logic with ZFC set theory as a foundation of mathematics.
+But unlike first-order logic with ZFC it has only \emph{one layer} (we will see what that
+means shortly). 
+\end{block}
+}
+
+\only<2->{
+\begin{block}{}
+Type theory has two basic forms of judgment/statements:
+\begin{itemize}
+\item $a : A$ ($a$ is an term/object/element of type $A$).
+\item $a \equiv b : A$ ($a$ and $b$ are definionally equal objects in type $A$).
+\end{itemize}
+\end{block}
+}
+
+\only<3->{
+\begin{block}{Some Predefined Types}
+\begin{itemize}
+\item The \emph{empty type} $\mathbf{0}$.
+\item The \emph{unit type} $\mathbf{1}$ with $\star : \mathbf{1}$.
+\item The \emph{boolean type} $\mathbf{2}$ with $0_{\mathbf{2}}, 1_{\mathbf{2}} : \mathbf{2} $.
+\end{itemize}
+
+\end{block}
+}
+
+\only<4->{
+\begin{block}{Some Type Forming Rules}
+Given types $A$ and $B$ we can form:
+\begin{itemize}
+\item The \emph{function type} $A \to B$.
+\item The \emph{product type} $A \times B$.
+\item The \emph{co-product type} $A + B$.
+\end{itemize}
+\end{block}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Dependent Types}\label{dependent types}
+
+\only<1->{
+\begin{block}{}
+We can also have types depending on terms and consider types as terms.
+\end{block}
+}
+
+\only<2->{
+\begin{block}{Universes and Type Family}
+To consider types as terms we need types of types. These special types
+whose objects are types are called \emph{universes}.\smallskip
+
+Given a type $A$ and universe $\U$ a function $f : A \to \U$ is called a \emph{type family}.
+\end{block}
+}
+
+\only<3->{
+\begin{block}{Dependent Types}
+Given a type family $P : A \to \U $ we can form:
+\begin{itemize}
+\item The \emph{dependent function type} $\prod_{a : A} P(a)$.
+\item The \emph{depedent product type} $\sum_{a : A} P(a)$.
+\end{itemize}
+
+\end{block}
+}
+\only<4->{
+\begin{block}{An Example}
+Ask how to write
+\end{block}
+}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Universes and Paradoxes in Set Theory}\label{uni and para}
+
+\only<1->{
+\begin{block}{}
+The existence of an \emph{universe} in set theory, i.e., \emph{set of all sets} leads to
+classical paradoxes due to Cantor, Russell, Burali-Forti. 
+\end{block}
+}
+
+\only<2->{
+\begin{block}{Burali-Forti Paradox}
+
+\begin{itemize}
+\item Consider \emph{ordinals} to be sets with an irreflexive well-ordering.
+
+\item Then existence of an universal set implies existence of the collection of all 
+      ordinals equal upto order-preserving bijections. Call this collection $Ord$.
+
+\item Order preserving strict inclusions induces an irreflexive well-order $<$ on $Ord$.
+
+\item Then $(Ord,<) \in Ord$ and $A < Ord$ for all ordinals $A$. This leads to a contradiction
+      as $<$ is irreflexive.      
+\end{itemize}
+
+\end{block}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Vector Bundles}\label{vec bun}
+
+\only<1->{
+\begin{definition} 
+A vector bundle of dimension $k$ over $F$ ($\mathbb{R}$ or $\mathbb{C}$) is a 
+bundle $p : E \to B$ where inverse image of each $b \in B$ has a $k$-dimensional
+vector space structure over $F$ and the bundle is locally trivial.
+\end{definition}
+}
+
+\only<2->{
+\begin{example}
+Two examples of vector bundles over $S^1$ are the line bundles corresponding to 
+the cylinder and m\"obius strip. 
+\end{example}
+}
+
+\only<3->{
+\begin{example}
+A slightly more non-trivial example is the canonical line bundle $\gamma^n_1$
+on $\R P^{n-1}$. It is a 
+\emph{subbundle} of the product bundle $(\R P^{n-1} \times \R ^n, p, \R ^n)$. Where the 
+total space $E$ consists of pairs $([v],x) \in (\R P^{n-1} \times \R ^n)$ such that 
+$x$ is in the line corresponding to $[v]$.\smallskip
+
+This definition can be carried on to $n = \infty$ by inductive/weak topology.	
+\end{example}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Universal Bundles}\label{uni bun}
+
+\only<1>{
+\begin{block}{Canonical Vector Bundle over the \emph{Grassmanian}}
+The canonical $k$-dimensional vector bundle over the $k$-dimensional \emph{Grassmanian}
+$\gamma^n_k$ is a generalisation of $\gamma^n_1$.\smallskip
+
+$\gamma^{\infty}_k$ is a \emph{classifying space} due to following theorems.
+\end{block}
+}
+
+\only<2>{
+\begin{theorem}[1]\label{T:Ind}
+Every vector bundle $\mathscr{E}^k$ over a paracompact space $B$ is $B$-isomorphic
+to the induced bundle $f^*(\gamma^{\infty}_k)$ for some ${f : B \to G_k (F^{ \infty })}$.
+\end{theorem}
+
+\begin{block}{}
+This theorem says that every vector bundle can be written as an induced bundle of 
+$\gamma^{\infty}_k$.
+\end{block}
+
+}
+
+\only<3>{
+\begin{theorem}[2]\label{T:Hom to Eq}
+Let $f, g: B \to B'$ be two homotopic maps, where $B$ is a para-compact space, 
+and let $\mathscr{E}$ be a vector bundle over $B'$. Then $f^*(\mathscr{E})$ and 
+$g^*(\mathscr{E})$ are $B$-isomorphic.
+\end{theorem}
+
+\begin{block}{}
+This theorem says that for any vector bundle homotopies between maps into it induce 
+isomorphism between the induced bundles.
+\end{block}
+
+}
+
+\only<4>{
+\begin{theorem}[3]\label{T:Eq to Hom}
+Let $f, g: B \to G_k(F^n)$ be s.t. $f^*(\gamma_k^n)$ and $g^*(\gamma_k^n)$
+are $B$-isomorphic and let ${ j: G_k(F^n) \to G_k(F^{2n}) }$ be the natural inclusion. Then the
+maps $jf$ and $jg$ are homotopic for $1 \leq n \leq \infty$. 
+\end{theorem}
+
+\begin{block}{}
+This theorem says that isomorphisms between induced bundles of $\gamma^{\infty}_k$ 
+induce homotopies between the corresponding maps into $\gamma^{\infty}$.
+\end{block}
+}
+
+\only<5>{
+
+\begin{block}{}
+So $\gamma^{\infty}_k$ is a classifying space for $k$-dimensional vector bundles 
+in the following sense.
+\begin{itemize}
+\item Every $k$-dimensional vector bundle can be induced from it.
+\item Homotopies between maps into it and isomorphisms between the corresponding induced
+      bundles are in one-to-one correspondence. 
+\end{itemize}
+\end{block}
+
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\begin{thebibliography}{99}
+
+\bibitem{Hott}
+Homotopy Type Theory: Univalent Foundations of Mathematics.
+
+\bibitem{Manin}
+A Course in Mathematical Logic for Mathematicians: Yu. I. Manin. 
+
+\bibitem{Husemoller}
+Fibre Bundles: Dale Husemoller.
+
+
+\end{thebibliography}
+\end{frame}
+
+\end{document}
