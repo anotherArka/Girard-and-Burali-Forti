@@ -1,0 +1,154 @@
+%
+%   Inofficial Universität Passau LaTeX Beamer Style File (Standard Version)
+%   ------
+%
+%   :created: 2014 by Philipp Jovanovic <philipp@jovanovic.io>.
+%   :license: CC0, see LICENSE for more details.
+%
+\mode<presentation>
+
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{caption}
+
+\usepackage{textpos}
+
+% suppress navigation bar
+\beamertemplatenavigationsymbolsempty
+
+\setbeamercovered{transparent}
+
+% official Universität Passau colors
+\definecolor{uporange}{RGB}{242,148,0}
+\definecolor{upgrey}{RGB}{153,159,158}
+\definecolor{upjura}{RGB}{229,49,56}
+\definecolor{upphil}{RGB}{188,42,51}
+\definecolor{upwiwi}{RGB}{0,96,57}
+\definecolor{upfim}{RGB}{0,90,161}
+
+\definecolor{uidarkgrey}{RGB}{125,125,125}
+\definecolor{uiblack}{RGB}{0,0,0}
+\definecolor{uidarkred}{RGB}{80,20,27}
+
+% title colors
+%\setbeamercolor{title}{fg=uporange}
+\setbeamercolor{title}{fg=uidarkred}
+\setbeamercolor{subtitle}{fg=uidarkgrey}
+\setbeamercolor{author}{fg=uidarkgrey}
+\setbeamercolor{institute}{fg=uidarkgrey}
+\setbeamercolor{date}{fg=uidarkgrey}
+
+% colors for specific (inner) elements
+\setbeamercolor{frametitle}{fg=uidarkred}
+\setbeamercolor{frametitle ruler}{fg=uidarkgrey}
+\setbeamercolor{block title}{fg=uporange}
+\setbeamercolor{item}{fg=uporange}
+\setbeamercolor{section in toc}{fg=uidarkgrey}
+\setbeamercolor{subsection in toc}{fg=uidarkgrey,bg=white}
+\setbeamercolor{part title}{fg=uidarkred}
+
+\setbeamerfont{framesubtitle}{size=\footnotesize}
+\setbeamerfont{frametitle}{size=\large}
+
+% caption styling (table, figure etc.)
+\DeclareCaptionFont{uiblack}{\color{uiblack}}
+\DeclareCaptionFont{uporange}{\color{uporange}}
+\captionsetup{labelfont={uporange},textfont={uiblack}}
+
+% sub-/section styling in table of contents
+\setbeamertemplate{section in toc}[sections numbered]
+\setbeamertemplate{subsection in toc}[default]
+\AtBeginSection{\frame{\sectionpage}}
+
+% footer colors
+\setbeamercolor{footer-ruler}{fg=uidarkgrey,bg=white}
+\setbeamercolor{footer}{fg=uidarkgrey,bg=white}
+
+\setbeamertemplate{section page}
+{
+  \begin{centering}
+    \begin{beamercolorbox}[sep=12pt,center]{part title}
+      \usebeamerfont{section title}\insertsection\par
+    \end{beamercolorbox}
+  \end{centering}
+}
+
+
+% define and set header design
+\setbeamertemplate{frametitle}
+{%
+  \vskip0.15cm%
+  \hbox{%
+  \begin{beamercolorbox}[leftskip=0.5cm,wd=\paperwidth,ht=0.75cm]{frametitle}%
+      %\hbox{\textbf{\insertframetitle}}%
+      \hbox{\insertframetitle}%
+  \end{beamercolorbox}}%
+  \vskip-0.55cm
+  \hbox{%
+  \begin{beamercolorbox}[leftskip=0.40cm,wd=\paperwidth,ht=0.10cm]{frametitle ruler}%
+    \hbox{\rule{.72\paperwidth}{.5pt}}%
+  \end{beamercolorbox}}%
+}%
+
+
+% define footer design
+%\setbeamertemplate{footline}
+%{%
+%  \ifnum\value{page}>2
+%  {
+%  \leavevmode
+%  \hbox{
+%  \begin{beamercolorbox}[leftskip=0.4cm,wd=\paperwidth,ht=0.10cm]{footer-ruler}%
+%    \rule{.935\paperwidth}{.5pt}%
+%  \end{beamercolorbox}
+%  }
+%  \vskip1pt
+%  \hbox{
+%  \begin{beamercolorbox}[wd=0.4\paperwidth,ht=0.35cm,dp=2.25ex,left]{footer}%
+%    \hspace*{0.8cm}\scriptsize{\insertshorttitle}
+%  \end{beamercolorbox}
+%  \begin{beamercolorbox}[wd=0.2\paperwidth,ht=0.35cm,dp=2.25ex,center]{footer}%
+%    \scriptsize{\insertshortauthor}
+%  \end{beamercolorbox}
+%  \begin{beamercolorbox}[wd=0.38\paperwidth,ht=0.35cm,dp=2.25ex,right]{footer}%
+%    \scriptsize{\insertframenumber{} / \inserttotalframenumber}\hspace*{0.8cm}
+%  \end{beamercolorbox}
+%  }
+%  \vskip0pt
+%  }
+%  \fi
+%}%
+
+\defbeamertemplate*{footline}{unipassautheme}%
+{%
+  \leavevmode
+  \hbox{
+  \begin{beamercolorbox}[leftskip=0.4cm,wd=\paperwidth,ht=0.10cm]{footer-ruler}%
+    \rule{.935\paperwidth}{.5pt}%
+  \end{beamercolorbox}
+  }
+  \vskip1pt
+  \hbox{
+  \begin{beamercolorbox}[wd=0.3\paperwidth,ht=0.35cm,dp=2.25ex,left]{footer}%
+    \hspace*{0.8cm}\scriptsize{\insertshortauthor}
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[wd=0.4\paperwidth,ht=0.35cm,dp=2.25ex,center]{footer}%
+    \scriptsize{\insertshorttitle}
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[wd=0.28\paperwidth,ht=0.35cm,dp=2.25ex,right]{footer}%
+    \scriptsize{\insertframenumber{} / \inserttotalframenumber}\hspace*{0.8cm}
+  \end{beamercolorbox}
+  }
+  \vskip0pt
+}%
+
+% set the logo
+% \logo {%
+%   \begin{tikzpicture}[remember picture,overlay]%
+%     \node[anchor=north east,xshift=-0.45cm,yshift=-0.55cm] at (current page.north east) {\includegraphics[width=3cm]{IIScLogo.jpg}};%
+%   \end{tikzpicture}
+% }%
+
+
+\mode
+<all>

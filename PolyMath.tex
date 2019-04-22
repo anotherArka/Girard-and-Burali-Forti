@@ -1,0 +1,440 @@
+\documentclass[aspectratio=1610,17pt, ucs]{beamer}
+
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage[USenglish]{babel}
+% \usepackage{graphicx} % graphics
+% % \usepackage{mathabx}
+% \usepackage{mathpazo}
+% % \usepackage{eulervm}
+%
+% \usepackage[T1]{fontenc}
+% \usepackage{lmodern}
+%
+% \usepackage{minted}
+%
+% \usepackage{hyperref}
+%
+
+\usepackage{listings}
+\usetheme{unipassau}
+
+\lstset{
+language=scala,
+otherkeywords={=, ==, =:=, +, |+|, &&},
+basicstyle=\tiny,
+literate={~} {$\sim$}{1}
+}
+
+\setbeamercovered{invisible}
+\setbeamercolor{alerted text}{fg=blue}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\langle \alpha, \beta \rangle}
+\newcommand{\ba}{\bar{\alpha}}
+\newcommand{\bb}{\bar{\beta}}
+\newcommand{\abab}{\alpha\beta\alpha^{-1}\beta^{-1}}
+
+
+\newcommand{\co}{\colon\thinspace}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem*{quotthm}{Theorem}
+\newtheorem{question}{Question}
+\newtheorem{conjecture}{Conjecture}
+
+
+
+\begin{document}
+
+% \newtheorem{theorem}{Theorem}[section]
+% \newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem{corollary}[theorem]{Corollary}
+
+% title slide definition
+\title{Homogeneous length functions on Groups}
+\subtitle{A PolyMath adventure}
+\author[Siddhartha Gadgil]{
+Siddhartha Gadgil
+}
+\institute
+{
+  Department of Mathematics,\\
+  Indian Institute of Science.
+}
+
+
+\date{January 31, 2019}
+\maketitle
+
+%--------------------------------------------------------------------
+%                            Titlepage
+%--------------------------------------------------------------------
+
+
+
+% \begin{frame}[plain]
+%   \titlepage
+% \end{frame}
+
+\begin{frame}
+  \begin{itemize}[<+->]
+    \item On Saturday, December 16, 2017, Terrence Tao posted on his blog a question, from Apoorva Khare.
+
+\begin{question}
+    Is there a homogeneous, (conjugacy invariant) length function on the free group on two generators?
+\end{question}
+
+    \item Six days later, this was answered in a collaboration involving several mathematicians (and a computer).
+    \item This the story of the answer and its discovery.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{PolyMath 14 Participants}
+  \begin{itemize}
+    \item Tobias Fritz, MPI MIS
+    \item Siddhartha Gadgil, IISc, Bangalore
+    \item Apoorva Khare, IISc, Bangalore
+    \item	Pace Nielsen, BYU
+    \item Lior Silberman, UBC
+    \item Terence Tao, UCLA
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Outline}
+  \pause
+  \tableofcontents[pausesections]
+\end{frame}
+
+
+
+% -------------------------------------------------------------------
+%                            Content
+% -------------------------------------------------------------------
+
+\section{The Question}
+
+
+\begin{frame}{Groups}
+  \begin{itemize}[<+->]
+    \item A Group $G$ is a set together with 
+    \begin{itemize}
+      \item an \alert{associative} binary operation $G \times G \to G$,
+      \item an \alert{identity} $e$ such that $g \cdot e = e \cdot g = g$ for all $g \in G$,
+      \item an \alert{inverse} function $g \mapsto g^{-1}$ such that $g \cdot g^{-1} = g^{-1} \cdot g = e$ for all $g\in G$.
+    \end{itemize}
+    \item Integers $\Z$ with the addition operation form a group.
+    \item Pairs of real numbers with componentwise addition form the group $\R^2$.
+    \item For $n\geq 1$, $n \times n$ real matrices with determinant $1$ form a group (called $Sl(n, \R)$).
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Length functions}
+
+  \begin{itemize}[<+->]
+    \item A \alert{pseudo-length function} on a group $G$ is a function $l: G \to [0, \infty)$ such that
+    \begin{itemize}
+      \item $l(e) = 0$, where $e\in G$ is the identity,
+      \item $l(g^{-1}) = l(g)$ for all $g \in G$ (\textbf{symmetry}),
+      \item $l(gh) \leq l(g) + l(h)$ for all $g,h\in G$ (the \textbf{triangle inequality}).
+    \end{itemize}
+    \item A pseudo-length function $l$ on a group $G$ is said to be a \alert{length function} if $l(g) > 0$ for all $g\in G \setminus \{ e \}$.
+    \item Norms on vector spaces, such as $l(x, y) = \sqrt{x^2 + y^2}$ on $\R^2$, are length functions. 
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Homogeneity and Conjugacy invariance}
+  \begin{itemize}[<+->]
+    \item A pseudo-length function $l$ on a group $G$ is said to be \alert{homogeneous} if $l(g^n) = nl(g)$ for all $g\in G$, $n \in\Z$.
+    \item Norms are homogeneous -- indeed Apoorva's question was motivated by generalizing \emph{stochastic inequalities}  from Vector spaces with norms.
+    \item A pseudo-length function $l$ on a group $G$ is said to be \alert{conjugacy invariant} if $l(ghg^{-1}) = l(h)$ for all $g, h\in G$.
+    \item If $G$ is \alert{abelian} ($gh=hg$ for all $g, h\in G$) this holds.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Lengths and Metrics}
+  \begin{itemize}[<+->]
+    \item Given a length $l: G \to \R$ on a group $G$, we can define a \alert{metric}  on $G$ by $d(x, y) = l(x^{-1}y)$.
+    \item This is \alert{left-invariant}, i.e., $d(gx, gy) = d(x, y)$ for all $g, x, y \in G$.
+    \item Conversely any left invariant metric gives a length $l(g) := d(e, g)$, with $d(x, y) = l(x^{-1}y)$.
+    \item The metric $d$ associated to $l$ is \alert{right-invariant}, (i.e., $d(xg, yg) = d(x, y)$ for all $g, x, y \in G$) if and only if $l$ is \alert{conjugacy invariant}.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{The Free Group $\F$}
+\begin{itemize}[<+->]
+  \item Consider words in $S =\{\alpha$, $\beta$, $\alpha^{-1}$, $\beta^{-1}\}$, where we think of $\alpha^{-1}$ and $\beta^{-1}$ as simply formal symbols.
+  \item We regard two words as equal if they are related by a  sequence of moves given by cancellation of pairs of \alert{adjacent} letters that are \alert{inverses}
+  of each other.
+  \item For example, $\alpha\beta\beta^{-1}\alpha\beta\alpha^{-1} = \alpha\alpha\beta\alpha^{-1}$.
+  \item Formally, we define an equivalence relation and consider the corresponding quotient.
+  
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The Free group $\F$}
+  \begin{itemize}[<+->]
+    \item The group $\F$ is the set of words in $S$ up to the equivalence given above.
+    \item Multiplication in $\F$ is given by concatenation, i.e.
+  $$(\xi_1\xi_2\dots \xi_n) \cdot (l'_1l'_2\dots l'_m) = \xi_1\xi_2\dots \xi_nl'_1l'_2\dots l'_m$$
+    \item The identity $e$ is the empty word.
+    \item The inverse of an element is obtained by inverting letters and reversing the order, i.e., $(\xi_1\xi_2\dots \xi_n)^{-1}=\xi_n^{-1}\dots \xi_2^{-1}\xi_1^{-1}$.
+  \end{itemize}
+  
+\end{frame}
+
+\begin{frame}{The Question}
+  \pause
+  \begin{question}[Apoorva Khare via Terence Tao]
+    Is there a function $l: \langle \alpha, \beta\rangle \to [0, \infty)$ on the free group on two generators such that \pause
+    \begin{itemize}[<+->]
+      \item $l(g) = 0$ if and \alert{only if} $g = e$ (\alert{positivity}).
+      \item $l(g^{-1}) = l(g)$ for all $g\in \langle \alpha, \beta\rangle$.
+      \item $l(gh) \leq l(g)+ l(h)$ for all $g, h\in \langle \alpha, \beta\rangle$.
+      \item $l(ghg^{-1}) = l(h)$ for all $g, h\in \langle \alpha, \beta\rangle$.
+      \item $l(g^n) = nl(g)$ for all $g\in \langle \alpha, \beta\rangle$, $n\in\mathbb{Z}$.
+    \end{itemize}
+\end{question}
+
+\end{frame}
+
+\section{The Quest}
+
+\begin{frame}{Some observations}
+  \begin{itemize}[<+->]
+    \item By counting the number of occurences of $\alpha$ and $\beta$ with sign, we get a homomorphism $\varphi : \F \to \Z^2$.
+    \item The length $l_{\Z^2}(x, y) = |x| + |y|$ on $\Z^2$ 
+    induces a homogeneous, conjugacy-invariant pseudo-length 
+    $\bar{l}(g) = l_{\Z^2}(\varphi(g))$ on $\F$;
+    however,  as $\varphi(\abab) = (0, 0)$, $\bar{l}(\alpha\beta\alpha^{-1}\beta^{-1}) = 0$.
+    \item (Fritz) Homogeneity implies conjugacy invariant.
+    \item (Tao, Khare) Homogeneity follows from $l(g^2) \geq 2l(g)$ for all $g\in \F$.
+
+  \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{The Quest}
+  \begin{itemize}
+    \item Over the first 4-5 days after the question was posted,
+    \begin{itemize}
+      \item there were many (failed, but instructive) attempts to construct such length functions;
+      \item\pause in particular I focussed on a construction using \alert{non-crossing matchings}, \pause but this failed homogeneity;
+      \item\pause the failures of various constructions led to the general feeling that $l(\alpha\beta\alpha^{-1}\beta^{-1}) = 0$;
+      \item\pause increasingly sharp bounds and methods of combining bounds were found, but there was no visible path to proving $l(\alpha\beta\alpha^{-1}\beta^{-1}) = 0$.
+    \end{itemize}
+    \item\pause On Thursday morning I posted a proof of a computer-assisted bound.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Proof which I posted online}
+  \pause
+  {\small Proof of a bound on $l(\alpha\beta\alpha^{-1}\beta^{-1})$ for $l$ a homogeneous, conjugacy invariant length function with $l(\alpha), l(\beta) \leq 1$.}\pause
+  \tiny
+  \begin{itemize}
+    \item $|\bar{a}| \leq 1.0$
+    \item $|\bar{b}\bar{a}b| \leq 1.0$ using $|\bar{a}| \leq 1.0$
+    \item $|\bar{b}| \leq 1.0$
+    \item $|a\bar{b}\bar{a}| \leq 1.0$ using $|\bar{b}| \leq 1.0$
+    \item $|\bar{a}\bar{b}ab\bar{a}\bar{b}| \leq 2.0$ using $|\bar{a}\bar{b}a| \leq 1.0$ and $|b\bar{a}\bar{b}| \leq 1.0$
+    \item ... (119 lines)
+    \item $|ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}| \leq 13.859649122807017$ using $|ab\bar{a}| \leq 1.0$ and $|\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}| \leq 12.859649122807017$
+    \item $|ab\bar{a}\bar{b}| \leq 0.8152734778121775$ using $|ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}ab\bar{a}\bar{b}| \leq 13.859649122807017$ by taking 17th power.
+  \end{itemize}
+  \pause
+  {\small i.e., $l(\alpha, \beta) \leq 0.8152734778121775$}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}[<+->]
+    \item The computer-generated proof was studied by Pace Nielsen, who extracted the \alert{internal repetition} trick.
+    \item This was extended by Pace Nielsen and Tobias Fritz and generalized by Terence Tao.
+    \item From this Fritz obtained the key lemma:
+    \begin{lemma}
+      Let $f(m,k)=l(x^m (xyx^{-1}y^{-1})^k)$. Then $$f(m,k)\leq \frac{f(m-1,k)+f(m+1,k-1)}{2}.$$
+    \end{lemma}
+    \vspace{-1cm}
+    \item Using Probability, Tao showed $l(\alpha\beta\alpha^{-1}\beta^{-1}) = 0$.
+  \end{itemize}
+
+\end{frame}
+
+
+
+\section{Computer Bounds and Proofs}
+
+\begin{frame}{Bounds from Conjugacy invariance}
+  \begin{itemize}[<+->]
+    \item Fix a conjugacy-invariant, \alert{normalized} length function $l: \F \to \R$, i.e. with $l(\alpha), l(\beta)\leq 1$.
+    \item Let $g=\xi_1\xi_2\dots \xi_n$ with $n \geq 1$.
+    \begin{itemize}
+      \item\label{plus1} By the triangle inequality $$l(g) \leq 1 + l(\xi_2\xi_3\dots \xi_n).$$
+      \item\label{pair} If $\xi_k = \xi_1^{-1}$, by the triangle inequality and conjugacy invariance
+       $$l(g)\leq l(\xi_2\xi_3\dots \xi_{k-1}) + l(\xi_{k+1}\xi_{k+2}\dots \xi_n)$$ as 
+         $l(\xi_1\xi_2\dots \xi_k) = l(\xi_1\xi_2\dots \xi_{k-1}\xi_1^{-1}) = l(\xi_2\xi_2\dots \xi_{k-1})$.
+      
+    \end{itemize}
+  \end{itemize}
+  
+\end{frame}
+
+\begin{frame}{The recursive algorithm}
+  For $g\in F$, compute $L(g)$ such that $l(g)\leq L(g)$ by:
+  \begin{itemize}[<+->]
+    \item If $g = e$ is the empty word, \alert{define} $L(g) := 0$.
+    \item If $g=\xi_1$ has exactly one letter, \alert{define} $L(g) := 1$.
+    \item If $g = \xi_1\xi_2\dots \xi_n$ has at least two letters:
+    \begin{itemize}
+      \item let $\lambda_0 = 1 + L(\xi_2\xi_3\dots \xi_n)$ (computed recursively).
+      \item let $\Lambda$ be the (possibly empty) set
+      $$\{L(\xi_2\xi_3\dots \xi_{k-1}) + L(\xi_{k+1}\xi_{k+2}\dots \xi_n): 2 \leq k\leq n, \xi_k = \xi_1^{-1}\}$$
+      \item \alert{define} $L(g) := \min(\{\lambda_0\}\cup \Lambda)$.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ad hoc bounds using Homogeneity}
+  \begin{itemize}[<+->]
+    \item For chosen $g\in \F$, $n \geq 1$, homogeneity gives $l(g)\leq L(g^n)/n$ for $l$ a normalized, homogeneous length function on $\F$.
+    \item Further, we can use this (in general improved) bound (in place of $L(g)$) recursively in the above algorithm.
+    \item We computed such bounds in interactive sessions. 
+    \item The words used were $\alpha(\alpha\beta\alpha^{-1}\beta^{-1})^k$, chosen based on non-homogeneity of the conjugacy-invariant length function $l_{WC}$ based on non-crossing matchings.
+  \end{itemize}
+  
+\end{frame}
+
+\begin{frame}{From bounds to Proofs}
+  \begin{itemize}
+    \item\pause Rather than (recursively) generating just bounds, we can recursively generate \alert{proofs} of bounds.
+    \item\pause These were in terms of \alert{domain specific foundations}, which could be viewed as embedded in Homotopy Type Theory; \pause which is a system of foundations of mathematics related to topology.
+    \item\pause In this case, we can instead view our algorithm as just keeping track of relevant inequalities.
+  \end{itemize}
+  
+\end{frame}
+
+\begin{frame}[fragile]{Domain specific foundations in scala}
+ 
+  {\small 
+  \begin{itemize}
+    \item Proofs were represented as \alert{objects} of a specific \alert{type}.
+    \item The \alert{correctness} was independent of \alert{discovery}. 
+  \end{itemize}
+  }
+  \pause
+  \begin{lstlisting}
+sealed abstract class LinNormBound(val word: Word, val bound: Double)
+
+final case class Gen(n: Int) extends LinNormBound(Word(Vector(n)), 1)
+
+final case class ConjGen(n: Int,pf: LinNormBound) extends
+      LinNormBound(n +: pf.word :+ (-n), pf.bound)
+
+final case class Triang(
+  pf1: LinNormBound, pf2: LinNormBound) extends
+      LinNormBound( pf1.word ++ pf2.word, pf1.bound + pf2.bound)
+
+final case class PowerBound(
+  baseword: Word, n: Int, pf: LinNormBound) extends
+    LinNormBound(baseword, pf.bound/n){require(pf.word == baseword.pow(n))}
+
+final case object Empty extends LinNormBound(Word(Vector()), 0)
+  \end{lstlisting}
+
+\end{frame}
+
+\section{The Theorem and Proof}
+
+\begin{frame}{The main results}
+  \begin{theorem}
+    For any group $G$, every homogeneous pseudo-length $l: G \to \R$ is the pullback of a homogeneous pseudo-length on the abelianization $G/ [G, G]$. 
+  \end{theorem}
+
+  \pause 
+
+  \begin{corollary}
+    If $G$ is not abelian (e.g. $G = \mathbb{F}_2$) there is no homogeneous length function on $G$.
+  \end{corollary}
+
+\end{frame}
+
+\begin{frame}{Internal Repetition trick}
+  \begin{lemma}
+    If $x = s(wy)s^{-1} = t(zw^{-1})t^{-1}$, we have $l(x)\leq \frac{l(y)+ l(z)}{2}$.
+  \end{lemma}
+  \pause
+      \begin{itemize}[<+->]
+        \item $\begin{aligned}
+          l(x^nx^n) &= l(s(wy)^ns^{-1}t(zw^{-1})^nt^{-1}) \\ 
+          &\leq n(l(y) +l(z)) + 2(l(s) + l(t))
+        \end{aligned}$
+      \begin{center}      
+        \frame{Figure purged}
+      \end{center}
+      \item Use $l(x) = \frac{l(x^nx^n)}{2n}$ and take limits.
+      \end{itemize}
+    
+\end{frame}
+
+\begin{frame}{Tao's probability theory argument}
+  \begin{itemize}[<+->]
+    
+    \item The inequality $f(m,k)\leq \frac{f(m-1,k)+f(m+1,k-1)}{2}$ can be interpreted as the average value of $f$ non-decreasing along the random walk on $\Z^2$ where we move by $(-1, 0)$ or $(1, -1)$ with equal probability. 
+    \item The average movement in a step was $(0, -1/2)$.
+    \item Hence taking $2n$ steps starting at $(0, n)$ gives an upper bound for $f(0, 2n)=l((\alpha\beta\alpha^{-1}\beta^{-1})^n)$ by the average length for a distribution centered at the origin. 
+    \item This was bounded using the Chebyshev inequality.
+    
+    
+  \end{itemize}
+\end{frame}
+
+\section{Epilogue}
+
+\begin{frame}{On the computer proof}
+  \begin{itemize}
+    \item A limitation was that the elements for which we applied homogeneity were selected by hand.
+    \item \pause More importantly, in our representations of proofs, the bounds were only for concrete group elements.
+    \item\pause In particular, we could not 
+    \begin{itemize}
+      \item\pause represent inequalities for expressions,
+      \item\pause use induction.
+    \end{itemize}
+    \item\pause Would want proof in complete foundations;\pause\ which I completed a few days after the PolyMath proof (in my own implementation of HoTT).
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Quasification}
+  \begin{itemize}[<+->]
+    \item The function $l: G \to [0, \infty)$ is a \alert{quasi-pseudo-length function}  if there exists $c \in \mathbb{R}$ such that
+    $l(gh) \leq l(g) + l(h) + c$, for all $g,h\in G$.
+    \item We see that for a homogeneous quasi-pseudo-length function, $l(xyx^{-1}y^{-1}) \leq 4c$ for all $x, y\in G$.
+    % \item Free groups have homogeneous quasi-pseudo-length functions that are not pullbacks of norms.
+    \item For a group with vanishing \alert{stable commutator length}, e.g. $G=Sl(3 , \mathbb{Z})$, any homogeneous
+    quasi-pseudo-length function is equivalent to a pullback from $G/[G, G]$. 
+  \end{itemize}
+  
+\end{frame}
+
+\begin{frame}{Afterword}
+  \begin{itemize}
+    \item This work became \alert{PolyMath 14}, and has been published in \emph{Algebra \& Number Theory}.
+    \item\pause The work was a spontaneous collaboration across (at least) three continents, and a range of skills.
+    \item\pause A \alert{computer generated} but \alert{human readable} proof was read, understood, generalized and abstracted by mathematicians to obtain the key lemma in an interesting mathematical result;\pause\  this is perhaps the first time this has happened.
+  \end{itemize}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%
+
+\end{document}
