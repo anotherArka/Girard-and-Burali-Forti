@@ -37,14 +37,14 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\label{intro}
+\begin{frame}{Introduction}\label{intro}
 
 \visible<1->{
 \begin{block}{}
 A \emph{formal deduction system} consists of
 
 \begin{itemize}
-\item rules of forming valid expressions, and
+\item rules for forming valid expressions, and
 \item rules of deduction. 
 \end{itemize}
 
@@ -70,7 +70,7 @@ A \emph{formal deduction system} consists of
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}\label{type theory}
+\begin{frame}{}\label{type theory}
 
 \visible<1->{
 \begin{block}{}
@@ -182,7 +182,7 @@ there is a term $a : A$.
 
 \begin{table}
 \caption{Correspondence between logical and type theoritic operations}
-\begin{tabular}{ l | l }
+\begin{tabular}{ c | c }
 
 \hline
 English & Type Theory \\ 
@@ -198,7 +198,11 @@ $A$ or $B$ & $A + B$ \\
 
 $A$ implies $B$ & $A \to B$ \\
 
-Not $A$ & $A \to \mathbf{0}$
+Not $A$ & $A \to \mathbf{0}$ \\
+
+For all $a\in A$, $P(a)$ holds & $ \prod_{a : A} P(a)$ \\ 
+
+There exists $a\in A$ such that $P(a)$ holds & $\sum_{a : A} P(a)$ \\
 
 \end{tabular}
 
@@ -245,8 +249,9 @@ classical paradoxes due to Cantor, Russell, Burali-Forti.
 
 \begin{frame}
 
+\visible<1->{
 \begin{block}{}
-This proof can be formulated to type theory to arrive at a contradiction starting from the
+This proof can be formulated in type theory to arrive at a contradiction starting from the
 rule $\U : \U$ (or even for a finite number of universes). 
 Difficulties arise in formulation because
 \begin{itemize}
@@ -254,13 +259,15 @@ Difficulties arise in formulation because
 \item we do not have excluded middle.
 \end{itemize}
 \end{block}
+}
 
-
+\visible<2->{
 \begin{block}{}
-So we have an infinite sequence of universes 
+So we must have an infinite sequence of universes 
 
 \[ \U_0 : \U_1 : \U_2 ...\]
 \end{block}
+}
 
 \end{frame}
 
@@ -320,8 +327,8 @@ For line bundles the classifying space is $\R P^{\infty}$.
 \begin{block}{}
 
 \begin{itemize}
-\item In homotopy type theory (hott) types are interpreted as spaces.
-      This way each statement in hott gets a topological interpretation.
+\item In homotopy type theory (HOTT) types are interpreted as spaces.
+      This way each statement in HOTT gets a topological interpretation.
 \item $A\to B$ is interpreted as the space of continuous functions.
 \item $A \times B$ is interpreted as the product space. 
 \end{itemize}
@@ -423,8 +430,11 @@ we have a infinte sequence of univereses
 \end{block}
 
 \begin{block}{}
-But each of this universes are \emph{univalent}. That is, in these universes 
-\textbf{isomorphic structures are equal.}
+\begin{itemize}
+\item None of these universes can be \emph{versal} (due to paradoxes).
+\item But each of these universes can be taken to be \emph{univalent} (due to the axiom).
+\item That is, in these universes \textbf{isomorphic structures are equal.}
+\end{itemize}
 \end{block}
 
 
